@@ -36,29 +36,88 @@ wstring nhapTenSafe() {
             return input; // Hợp lệ thì trả về tên
         } else {
             // Lưu ý: Nếu bạn có định nghĩa màu (như RED, RESET), hãy thêm vào đây
-            wcout << L"Lỗi! Tên không được chứa số hoặc để trống. Vui lòng nhập lại: ";
+            wcout << RED << L"Lỗi! Tên không được chứa số hoặc để trống. Vui lòng nhập lại: " << RESET;
         }
     }
 }
-wstring nhapChuoiSoSafe() {
+wstring nhapCCCDSafe(const vector<Phong>& dsPhong) {
     wstring input;
     while (true) {
         getline(wcin >> ws, input);
-        bool toanLaSo = true;
         
-        // Quét từng ký tự, nếu có ký tự nào không phải là số -> Lỗi
+        // Điều kiện 1: Phải toàn là số
+        bool toanLaSo = true;
         for (wchar_t c : input) {
             if (!iswdigit(c)) {
                 toanLaSo = false;
                 break;
             }
         }
-        
-        if (toanLaSo && !input.empty()) {
-            return input; // Hợp lệ thì trả về chuỗi số
-        } else {
-            wcout << L"Lỗi! Dữ liệu này chỉ được chứa số. Vui lòng nhập lại: ";
+        if (!toanLaSo || input.empty()) {
+            wcout << RED << L"Lỗi! CCCD chỉ được chứa số. Vui lòng nhập lại: " << RESET;
+            continue; // Bắt nhập lại ngay lập tức
         }
+
+        // Điều kiện 2: Độ dài CCCD tại Việt Nam bắt buộc là 12 số
+        if (input.length() != 12) {
+            wcout << RED << L"Lỗi! Số CCCD phải có ĐÚNG 12 chữ số. Vui lòng nhập lại: " << RESET;
+            continue;
+        }
+
+        // Điều kiện 3: Không được trùng với CCCD của khách đang ở (phong.daDat == true)
+        bool biTrung = false;
+        for (const auto& phong : dsPhong) {
+            if (phong.daDat && phong.khach.cccd == input) {
+                biTrung = true;
+                break;
+            }
+        }
+        if (biTrung) {
+            wcout << RED << L"Lỗi! Số CCCD này đã được đăng ký ở phòng khác. Vui lòng nhập lại: " << RESET;
+            continue;
+        }
+
+        return input; // Thỏa mãn tất cả điều kiện
+    }
+}
+wstring nhapSDTSafe(const vector<Phong>& dsPhong) {
+    wstring input;
+    while (true) {
+        getline(wcin >> ws, input);
+        
+        // Điều kiện 1: Phải toàn là số
+        bool toanLaSo = true;
+        for (wchar_t c : input) {
+            if (!iswdigit(c)) {
+                toanLaSo = false;
+                break;
+            }
+        }
+        if (!toanLaSo || input.empty()) {
+            wcout << RED << L"Lỗi! Số điện thoại chỉ được chứa số. Vui lòng nhập lại: " << RESET;
+            continue;
+        }
+
+        // Điều kiện 2: SĐT Việt Nam hiện nay có 10 số và phải bắt đầu bằng số '0'
+        if (input.length() != 10 || input[0] != L'0') {
+            wcout << RED << L"Lỗi! SĐT phải có ĐÚNG 10 chữ số và bắt đầu bằng số 0. Vui lòng nhập lại: " << RESET;
+            continue;
+        }
+
+        // Điều kiện 3: Không được trùng với SĐT của khách đang ở
+        bool biTrung = false;
+        for (const auto& phong : dsPhong) {
+            if (phong.daDat && phong.khach.sdt == input) {
+                biTrung = true;
+                break;
+            }
+        }
+        if (biTrung) {
+            wcout << RED << L"Lỗi! Số điện thoại này đã được đăng ký ở phòng khác. Vui lòng nhập lại: " << RESET;
+            continue;
+        }
+
+        return input; // Thỏa mãn tất cả điều kiện
     }
 }
 void checkIn(vector<Phong>& dsPhong) {
@@ -78,10 +137,10 @@ void checkIn(vector<Phong>& dsPhong) {
             phong.khach.ten = nhapTenSafe();
             
             wcout << L"Nhập số CCCD: ";
-            phong.khach.cccd = nhapChuoiSoSafe();
+            phong.khach.cccd = nhapCCCDSafe(dsPhong);
             
             wcout << L"Nhập Số Điện Thoại: ";
-            phong.khach.sdt = nhapChuoiSoSafe();
+            phong.khach.sdt = nhapSDTSafe(dsPhong);
             
             wcout << L"Nhập số ngày dự kiến ở: ";
             phong.soNgayO = nhapSoNguyenSafe();
