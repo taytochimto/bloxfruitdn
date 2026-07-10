@@ -29,16 +29,17 @@ void checkIn(vector<Phong>& dsPhong) {
                 wcout << RED << L"Phòng này đã có người ở!\n" << RESET;
                 return;
             }
-            wcin.ignore();
+            wcin.clear();
+			wcin.ignore(10000, L'\n');
             // Bây giờ bộ nhớ đã sạch 100%, cứ dùng getline bình thường
-            wcout << L"Nhập tên khách hàng (VD: Nguyễn Văn A): " ;
-            getline(wcin, phong.khach.ten);
+            wcout << L"Nhập tên khách hàng : " ;
+            getline(wcin >> ws, phong.khach.ten);
             
             wcout << L"Nhập số CCCD: ";
-            getline(wcin, phong.khach.cccd);
+            getline(wcin >> ws, phong.khach.cccd);
             
             wcout << L"Nhập Số Điện Thoại: ";
-            getline(wcin, phong.khach.sdt);
+            getline(wcin >> ws, phong.khach.sdt);
             
             wcout << L"Nhập số ngày dự kiến ở: ";
             phong.soNgayO = nhapSoNguyenSafe();
