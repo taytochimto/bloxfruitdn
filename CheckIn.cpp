@@ -1,13 +1,17 @@
 #include "CheckIn.h"
 
+// Hàm này có nhiệm vụ chặn nhập chữ vào ô số, 
+// VÀ dọn sạch luôn phím Enter thừa để không bị trôi lệnh ở các bước sau
 int nhapSoNguyenSafe() {
     int value;
     while (true) {
         if (wcin >> value) {
-            wcin.ignore(10000, L'\n'); // Xóa bộ nhớ đệm sau khi nhập đúng
+            // Nhập đúng số -> Xóa phím Enter (\n) còn sót lại trong bộ nhớ đệm
+            wcin.ignore(10000, L'\n'); 
             return value;
         } else {
-            wcin.clear(); // Xóa cờ lỗi
+            // Nhập sai (nhập chữ) -> Xóa cờ báo lỗi và dọn bộ nhớ đệm
+            wcin.clear(); 
             wcin.ignore(10000, L'\n');
             wcout << RED << L"Lỗi! Vui lòng chỉ nhập SỐ: " << RESET;
         }
@@ -25,11 +29,11 @@ void checkIn(vector<Phong>& dsPhong) {
                 return;
             }
             
-            wcout << L"Nhập tên khách hàng: ";
-            // Kỹ thuật wcin >> ws: Hút sạch dấu Enter thừa ở dòng trước
-            getline(wcin >> ws, phong.khach.ten);
+            // Bắt đầu nhập thông tin khách (Dùng getline để lấy được cả họ và tên có dấu cách)
+            wcout << L"Nhập tên khách hàng (VD: Nguyễn Văn A): ";
+            getline(wcin, phong.khach.ten);
             
-            wcout << L"Nhập CCCD: ";
+            wcout << L"Nhập số CCCD: ";
             getline(wcin, phong.khach.cccd);
             
             wcout << L"Nhập Số Điện Thoại: ";
@@ -38,6 +42,7 @@ void checkIn(vector<Phong>& dsPhong) {
             wcout << L"Nhập số ngày dự kiến ở: ";
             phong.soNgayO = nhapSoNguyenSafe();
 
+            // Cập nhật trạng thái phòng
             phong.daDat = true;
             wcout << GREEN << L"Check-in phòng " << soPhong << L" thành công!\n" << RESET;
             return;
