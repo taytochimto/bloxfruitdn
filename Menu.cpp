@@ -1,29 +1,40 @@
 #include "Menu.h"
 
 void hienThiMenu() {
-    wcout << CYAN << L"\n=========================================\n";
-    wcout << L"    HỆ THỐNG QUẢN LÝ KHÁCH SẠN C++\n";
-    wcout << L"=========================================\n" << RESET;
-    wcout << L"1. Hiển thị sơ đồ phòng (Lưới)\n";
-    wcout << L"2. Check-in (Đặt phòng)\n";
-    wcout << L"3. Gọi dịch vụ (Đồ ăn, thức uống)\n";
-    wcout << L"4. Tìm kiếm khách hàng theo CCCD\n";
-    wcout << L"5. Check-out & In hóa đơn\n";
-    wcout << L"6. Lưu dữ liệu thủ công\n";
-    wcout << L"0. Thoát và tự động lưu\n";
-    wcout << CYAN << L"-----------------------------------------\n" << RESET;
-    wcout << L"Nhập lựa chọn của bạn: ";
+    wcout << CYAN << L"\n╔═════════════════════════════════════════════╗\n";
+    wcout << L"║       HỆ THỐNG QUẢN LÝ KHÁCH SẠN C++        ║\n";
+    wcout << L"╠═════════════════════════════════════════════╣\n" << RESET;
+    wcout << L"║ " << YELLOW << L"1." << RESET << L" Hiển thị sơ đồ phòng (Chi tiết)         ║\n";
+    wcout << L"║ " << YELLOW << L"2." << RESET << L" Check-in (Nhận phòng mới)               ║\n";
+    wcout << L"║ " << YELLOW << L"3." << RESET << L" Gọi dịch vụ (Đồ ăn, giặt là...)         ║\n";
+    wcout << L"║ " << YELLOW << L"4." << RESET << L" Tìm kiếm khách hàng (Theo CCCD)         ║\n";
+    wcout << L"║ " << YELLOW << L"5." << RESET << L" Check-out (Trả phòng & In hóa đơn)      ║\n";
+    wcout << L"║ " << YELLOW << L"6." << RESET << L" Lưu dữ liệu thủ công xuống file         ║\n";
+    wcout << L"║ " << RED    << L"0." << RESET << L" Thoát chương trình (Tự động lưu)        ║\n";
+    wcout << CYAN << L"╚═════════════════════════════════════════════╝\n" << RESET;
+    wcout << L"👉 Nhập lựa chọn của bạn: ";
 }
 
 void hienThiSoDoPhong(const vector<Phong>& dsPhong) {
-    wcout << L"\n--- SƠ ĐỒ PHÒNG KHÁCH SẠN ---\n";
+    wcout << YELLOW << L"\n                  --- SƠ ĐỒ PHÒNG KHÁCH SẠN ---                  \n\n" << RESET;
+    
     for (size_t i = 0; i < dsPhong.size(); i++) {
+        // Rút gọn giá tiền (VD: 200000 -> 200k) cho đẹp sơ đồ
+        wstring giaTien = to_wstring((int)(dsPhong[i].giaPhong / 1000)) + L"k";
+
         if (dsPhong[i].daDat) {
-            wcout << RED << L"[P." << dsPhong[i].soPhong << L" X] " << RESET; // Phòng có khách (Đỏ)
+            wcout << RED << L"[ P." << dsPhong[i].soPhong << L" | " << dsPhong[i].loaiPhong << L" | " << giaTien << L" ] - Đã Đặt   " << RESET;
         } else {
-            wcout << GREEN << L"[P." << dsPhong[i].soPhong << L" R] " << RESET; // Phòng trống (Xanh)
+            wcout << GREEN << L"[ P." << dsPhong[i].soPhong << L" | " << dsPhong[i].loaiPhong << L" | " << giaTien << L" ] - Trống    " << RESET;
         }
-        if ((i + 1) % 5 == 0) wcout << L"\n"; // Cứ 5 phòng thì xuống dòng tạo dạng lưới
+        
+        // Vì thông tin dài ra, nên 3 phòng sẽ xuống dòng 1 lần cho vừa màn hình
+        if ((i + 1) % 3 == 0) {
+            wcout << L"\n\n";
+        }
     }
-    wcout << L"\nChú thích: " << GREEN << L"[R]: Trống" << RESET << L" | " << RED << L"[X]: Đã đặt" << RESET << L"\n";
+    
+    wcout << L"\n";
+    wcout << CYAN << L"-----------------------------------------------------------------\n" << RESET;
+    wcout << L"Chú thích: " << GREEN << L"Màu xanh (Đang trống)" << RESET << L" | " << RED << L"Màu đỏ (Đang có khách)" << RESET << L"\n";
 }
