@@ -1,18 +1,19 @@
 #include "CheckIn.h"
 
-// Hàm này có nhiệm vụ chặn nhập chữ vào ô số, 
-// VÀ dọn sạch luôn phím Enter thừa để không bị trôi lệnh ở các bước sau
+// Hàm này đã được sửa lại: Dùng chuỗi tạm để dọn rác thay vì wcin.ignore()
 int nhapSoNguyenSafe() {
     int value;
+    wstring chuoiTam; // Tạo một chuỗi rỗng làm thùng rác
+    
     while (true) {
         if (wcin >> value) {
-            // Nhập đúng số -> Xóa phím Enter (\n) còn sót lại trong bộ nhớ đệm
-            wcin.ignore(10000, L'\n'); 
+            // Đọc số thành công -> Hút luôn phím Enter đang kẹt ném vào thùng rác
+            getline(wcin, chuoiTam); 
             return value;
         } else {
-            // Nhập sai (nhập chữ) -> Xóa cờ báo lỗi và dọn bộ nhớ đệm
+            // Đọc thất bại (người dùng nhập chữ) -> Xóa cờ lỗi và dọn sạch thùng rác
             wcin.clear(); 
-            wcin.ignore(10000, L'\n');
+            getline(wcin, chuoiTam);
             wcout << RED << L"Lỗi! Vui lòng chỉ nhập SỐ: " << RESET;
         }
     }
@@ -29,7 +30,7 @@ void checkIn(vector<Phong>& dsPhong) {
                 return;
             }
             
-            // Bắt đầu nhập thông tin khách (Dùng getline để lấy được cả họ và tên có dấu cách)
+            // Bây giờ bộ nhớ đã sạch 100%, cứ dùng getline bình thường
             wcout << L"Nhập tên khách hàng (VD: Nguyễn Văn A): ";
             getline(wcin, phong.khach.ten);
             
