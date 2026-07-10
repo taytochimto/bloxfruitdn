@@ -29,9 +29,9 @@ void checkIn(vector<Phong>& dsPhong) {
                 wcout << RED << L"Phòng này đã có người ở!\n" << RESET;
                 return;
             }
-            
+            wcin.ignore();
             // Bây giờ bộ nhớ đã sạch 100%, cứ dùng getline bình thường
-            wcout << L"Nhập tên khách hàng (VD: Nguyễn Văn A): ";
+            wcout << L"Nhập tên khách hàng (VD: Nguyễn Văn A): " ;
             getline(wcin, phong.khach.ten);
             
             wcout << L"Nhập số CCCD: ";
