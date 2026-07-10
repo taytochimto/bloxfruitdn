@@ -2,7 +2,8 @@
 #include "Common.h"
 #include <cwctype>
 wstring nhapTenSafe();
-wstring nhapChuoiSoSafe();
+wstring nhapSDTSafe(const vector<Phong>& dsPhong);
+wstring nhapCCCDSafe(const vector<Phong>& dsPhong);
 int nhapSoNguyenSafe();
 void checkIn(vector<Phong>& dsPhong);
 
