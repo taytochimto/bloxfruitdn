@@ -20,7 +20,7 @@ void hienThiSoDoPhong(const vector<Phong>& dsPhong) {
     
     for (size_t i = 0; i < dsPhong.size(); i++) {
         
-        wstring giaTien = to_wstring((int)(dsPhong[i].giaPhong / 1000)) + L"k";
+        wstring giaTien = to_wstring((int)(dsPhong[i].giaPhong / 1000)) + L"k/ngay";
 
         if (dsPhong[i].daDat) {
             wcout << RED << L"[ P." << dsPhong[i].soPhong << L" | " << dsPhong[i].loaiPhong << L" | " << giaTien << L" ] - Đã Đặt   " << RESET;
