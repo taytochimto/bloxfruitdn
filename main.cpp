@@ -11,6 +11,7 @@ void khoiTaoPhongMacDinh(vector<Phong>& dsPhong) {
     dsPhong.push_back({103, L"Đôi", 350000});
     dsPhong.push_back({201, L"Đôi", 350000});
     dsPhong.push_back({202, L"VIP", 600000});
+    dsPhong.push_back({203, L"VIP", 600000});
 }
 
 int main() {
