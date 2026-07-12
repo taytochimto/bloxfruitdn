@@ -19,7 +19,7 @@ void hienThiSoDoPhong(const vector<Phong>& dsPhong) {
     wcout << YELLOW << L"\n                  --- SƠ ĐỒ PHÒNG KHÁCH SẠN ---                  \n\n" << RESET;
     
     for (size_t i = 0; i < dsPhong.size(); i++) {
-        // Rút gọn giá tiền (VD: 200000 -> 200k) cho đẹp sơ đồ
+        
         wstring giaTien = to_wstring((int)(dsPhong[i].giaPhong / 1000)) + L"k";
 
         if (dsPhong[i].daDat) {
@@ -28,7 +28,7 @@ void hienThiSoDoPhong(const vector<Phong>& dsPhong) {
             wcout << GREEN << L"[ P." << dsPhong[i].soPhong << L" | " << dsPhong[i].loaiPhong << L" | " << giaTien << L" ] - Trống    " << RESET;
         }
         
-        // Vì thông tin dài ra, nên 3 phòng sẽ xuống dòng 1 lần cho vừa màn hình
+        
         if ((i + 1) % 3 == 0) {
             wcout << L"\n\n";
         }
