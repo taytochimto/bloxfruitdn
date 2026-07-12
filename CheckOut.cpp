@@ -1,12 +1,10 @@
 #include "CheckOut.h"
 #include <sstream>
-#include <cstdio>   // Thư viện C-chuẩn để vượt mặt C++
-#include <fcntl.h>  // Chứa _O_U8TEXT
-#include <io.h>     // Chứa _setmode
+#include <cstdio>   
+#include <fcntl.h>  
+#include <io.h>     
 
-// =========================================================
-// HÀM HỖ TRỢ: Nhập số an toàn
-// =========================================================
+
 int nhapSoAnToanCO() {
     wstring line;
     while (true) {
@@ -20,9 +18,7 @@ int nhapSoAnToanCO() {
     }
 }
 
-// =========================================================
-// HÀM 1: CHỨC NĂNG TRẢ PHÒNG & IN HÓA ĐƠN
-// =========================================================
+
 void checkOut(vector<Phong>& dsPhong) {
     wcout << L"Nhập số phòng muốn Check-out: ";
     int soPhong = nhapSoAnToanCO(); 
@@ -61,11 +57,9 @@ void checkOut(vector<Phong>& dsPhong) {
     wcout << RED << L"Không tìm thấy số phòng này trong hệ thống!\n" << RESET;
 }
 
-// =========================================================
-// HÀM 2: LƯU FILE BẰNG C-STANDARD (TRỊ LỖI DEV-C++)
-// =========================================================
+
 void ghiFile(const vector<Phong>& dsPhong, const string& filename) {
-    // Dùng FILE* thay vì wofstream để tránh bị sập luồng
+   
     FILE* f = fopen(filename.c_str(), "w");
     
     if (f == NULL) {
@@ -73,12 +67,12 @@ void ghiFile(const vector<Phong>& dsPhong, const string& filename) {
         return;
     }
     
-    // Ép file lưu dưới định dạng chuẩn Unicode (UTF-8) cực kỳ mạnh mẽ
+    
     _setmode(_fileno(f), _O_U8TEXT);
     
     int dem = 0;
     for (const auto& p : dsPhong) {
-        // Ghi dữ liệu trực tiếp vào ổ cứng
+        
         fwprintf(f, L"%d,%ls,%d,%d,%ls,%ls,%ls,%d,%d\n",
                  p.soPhong, 
                  p.loaiPhong.c_str(), 
@@ -96,9 +90,7 @@ void ghiFile(const vector<Phong>& dsPhong, const string& filename) {
     wcout << GREEN << L"Đã lưu thành công " << dem << L" phòng vào đĩa cứng (Đã khắc phục lỗi Dev-C++).\n" << RESET;
 }
 
-// =========================================================
-// HÀM 3: ĐỌC FILE BẰNG C-STANDARD
-// =========================================================
+
 void docFile(vector<Phong>& dsPhong, const string& filename) {
     FILE* f = fopen(filename.c_str(), "r");
     
@@ -117,7 +109,7 @@ void docFile(vector<Phong>& dsPhong, const string& filename) {
     while (fgetws(buffer, 2048, f)) {
         wstring line(buffer);
         
-        // Cắt bỏ dấu xuống dòng thừa
+        
         if (!line.empty() && line.back() == L'\n') line.pop_back();
         if (!line.empty() && line.back() == L'\r') line.pop_back();
         if (line.empty()) continue;
