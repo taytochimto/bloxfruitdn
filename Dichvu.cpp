@@ -57,7 +57,7 @@ void timKiemKhachHang(const vector<Phong>& dsPhong) {
             wcout << GREEN << L"\nTìm thấy khách hàng: " << phong.khach.ten << RESET << L"\n";
             wcout << L"- Đang ở phòng: " << phong.soPhong << L" (" << phong.loaiPhong << L")\n";
             wcout << L"- Số ĐT: " << phong.khach.sdt << L"\n";
-            return; // Đã tìm thấy khách hàng, kết thúc tìm kiếm
+            return; 
         }
     }
 
