@@ -7,13 +7,11 @@ void goiDichVu(vector<Phong>& dsPhong) {
 
     for (auto& phong : dsPhong) {
         if (phong.soPhong == soPhong) {
-            // Kiểm tra phòng đã được đặt chưa
             if (!phong.daDat) {
                 wcout << RED << L"Phòng này đang trống, không thể gọi dịch vụ!\n" << RESET;
                 return;
             }
             int chon;
-            // Dùng vòng lặp do-while để cho phép chọn nhiều dịch vụ hoặc nhập lại khi sai
             do {
                 wcout << L"\n--- MENU DỊCH VỤ (Phòng " << phong.soPhong << L") ---\n";
                 wcout << L"1. Nước uống (20.000đ)\n";
@@ -42,7 +40,7 @@ void goiDichVu(vector<Phong>& dsPhong) {
                 }
             } while (chon != 0);
 
-            return; // Đã xử lý xong phòng này, thoát hàm
+            return;
         }
     }
 
