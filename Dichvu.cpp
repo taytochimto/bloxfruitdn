@@ -7,20 +7,45 @@ void goiDichVu(vector<Phong>& dsPhong) {
 
     for (auto& phong : dsPhong) {
         if (phong.soPhong == soPhong) {
+            // Kiểm tra phòng đã được đặt chưa
             if (!phong.daDat) {
                 wcout << RED << L"Phòng này đang trống, không thể gọi dịch vụ!\n" << RESET;
                 return;
             }
-            wcout << L"\n--- MENU DỊCH VỤ ---\n";
-            wcout << L"1. Nước uống (20.000đ)\n2. Đồ ăn nhanh (50.000đ)\n3. Giặt là (30.000đ)\nChọn: ";
-            int chon; wcin >> chon;
-            if (chon == 1) { phong.tienDichVu += 20000; wcout << L"Đã thêm Nước uống.\n"; }
-            else if (chon == 2) { phong.tienDichVu += 50000; wcout << L"Đã thêm Đồ ăn nhanh.\n"; }
-            else if (chon == 3) { phong.tienDichVu += 30000; wcout << L"Đã thêm Giặt là.\n"; }
-            else wcout << L"Lựa chọn không hợp lệ.\n";
-            return;
+            int chon;
+            // Dùng vòng lặp do-while để cho phép chọn nhiều dịch vụ hoặc nhập lại khi sai
+            do {
+                wcout << L"\n--- MENU DỊCH VỤ (Phòng " << phong.soPhong << L") ---\n";
+                wcout << L"1. Nước uống (20.000đ)\n";
+                wcout << L"2. Đồ ăn nhanh (50.000đ)\n";
+                wcout << L"3. Giặt là (30.000đ)\n";
+                wcout << L"0. Hoàn thành / Quay lại\n";
+                wcout << L"Lựa chọn của bạn: ";
+                wcin >> chon;
+                if (chon == 1) { 
+                    phong.tienDichVu += 20000; 
+                    wcout << L"-> Đã thêm Nước uống (20.000đ).\n"; 
+                }
+                else if (chon == 2) { 
+                    phong.tienDichVu += 50000; 
+                    wcout << L"-> Đã thêm Đồ ăn nhanh (50.000đ).\n"; 
+                }
+                else if (chon == 3) { 
+                    phong.tienDichVu += 30000; 
+                    wcout << L"-> Đã thêm Giặt là (30.000đ).\n"; 
+                }
+                else if (chon == 0) {
+                    wcout << L"-> Hoàn tất chọn dịch vụ.\n";
+                }
+                else {
+                    wcout << RED << L"Lựa chọn không hợp lệ. Vui lòng thử lại!\n" << RESET;
+                }
+            } while (chon != 0);
+
+            return; // Đã xử lý xong phòng này, thoát hàm
         }
     }
+
     wcout << RED << L"Không tìm thấy số phòng này!\n" << RESET;
 }
 
@@ -34,8 +59,11 @@ void timKiemKhachHang(const vector<Phong>& dsPhong) {
             wcout << GREEN << L"\nTìm thấy khách hàng: " << phong.khach.ten << RESET << L"\n";
             wcout << L"- Đang ở phòng: " << phong.soPhong << L" (" << phong.loaiPhong << L")\n";
             wcout << L"- Số ĐT: " << phong.khach.sdt << L"\n";
-            return;
+            return; // Đã tìm thấy khách hàng, kết thúc tìm kiếm
         }
     }
+
+    wcout << RED << L"Không tìm thấy khách hàng có CCCD trên!\n" << RESET;
+}
     wcout << RED << L"Không tìm thấy khách hàng có CCCD trên!\n" << RESET;
 }
