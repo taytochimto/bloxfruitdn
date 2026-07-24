@@ -63,5 +63,3 @@ void timKiemKhachHang(const vector<Phong>& dsPhong) {
 
     wcout << RED << L"Không tìm thấy khách hàng có CCCD trên!\n" << RESET;
 }
-    wcout << RED << L"Không tìm thấy khách hàng có CCCD trên!\n" << RESET;
-}
