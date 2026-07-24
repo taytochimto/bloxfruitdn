@@ -4,6 +4,12 @@ void goiDichVu(vector<Phong>& dsPhong) {
     int soPhong;
     wcout << L"Nhập số phòng muốn gọi dịch vụ: ";
     wcin >> soPhong;
+    if (wcin.fail()) {
+        wcin.clear();
+        wcin.ignore(1000, L'\n');
+        wcout << RED << L"Số phòng không hợp lệ!\n" << RESET;
+        return;
+    }
 
     for (auto& phong : dsPhong) {
         if (phong.soPhong == soPhong) {
@@ -11,6 +17,7 @@ void goiDichVu(vector<Phong>& dsPhong) {
                 wcout << RED << L"Phòng này đang trống, không thể gọi dịch vụ!\n" << RESET;
                 return;
             }
+
             int chon;
             do {
                 wcout << L"\n--- MENU DỊCH VỤ (Phòng " << phong.soPhong << L") ---\n";
@@ -19,7 +26,17 @@ void goiDichVu(vector<Phong>& dsPhong) {
                 wcout << L"3. Giặt là (30.000đ)\n";
                 wcout << L"0. Hoàn thành / Quay lại\n";
                 wcout << L"Lựa chọn của bạn: ";
+                
                 wcin >> chon;
+                
+                if (wcin.fail()) {
+                    wcin.clear();
+                    wcin.ignore(1000, L'\n');
+                    wcout << RED << L"Vui lòng chỉ nhập số từ 0 đến 3!\n" << RESET;
+                    chon = -1;
+                    continue;
+                }
+
                 if (chon == 1) { 
                     phong.tienDichVu += 20000; 
                     wcout << L"-> Đã thêm Nước uống (20.000đ).\n"; 
@@ -50,6 +67,8 @@ void goiDichVu(vector<Phong>& dsPhong) {
 void timKiemKhachHang(const vector<Phong>& dsPhong) {
     wstring cccd;
     wcout << L"Nhập số CCCD của khách hàng cần tìm: ";
+    
+    wcin >> ws;
     wcin >> cccd;
 
     for (const auto& phong : dsPhong) {
